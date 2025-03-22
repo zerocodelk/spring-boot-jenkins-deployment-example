@@ -18,7 +18,6 @@ docker run -d --name jenkins \
 
 
 # Check the logs to get the initial admin password:
-
 docker logs jenkins
 
 
