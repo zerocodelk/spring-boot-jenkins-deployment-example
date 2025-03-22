@@ -1,0 +1,45 @@
+name: Local CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Runs on push to main branch
+  pull_request:
+    branches:
+      - main  # Runs on PRs to main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Uses GitHub-hosted Ubuntu runner
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4  # Fetch latest code
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: maven-
+
+      - name: Build with Maven
+        run: mvn clean install -DskipTests
+
+      - name: Build Docker Image Locally
+        run: docker build -t spring-boot-app .
+
+      - name: Stop Old Container (If Running)
+        run: docker stop spring-boot-app || true
+
+      - name: Remove Old Container (If Exists)
+        run: docker rm spring-boot-app || true
+
+      - name: Run New Docker Container
+        run: docker run -d --name spring-boot-app -p 8080:8080 spring-boot-app
