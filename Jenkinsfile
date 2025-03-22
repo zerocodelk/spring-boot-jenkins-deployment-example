@@ -1,12 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        // References to the tools configured in Jenkins
-        jdk 'HostJDK'
-        maven 'HostMaven'
-    }
-
     stages {
 
         stage('Verify Tools') {
@@ -16,12 +10,14 @@ pipeline {
                 sh 'mvn -version'
                 sh 'docker -v'
                 echo "Build number: ${BUILD_NUMBER}"
+                sh "pwd"
             }
         }
 
         stage('Checkout Code') {
             steps {
-                git branch: 'main', url: 'https://github.com/zerocodelk/spring-boot-jenkins-deployment-example.git'
+                git branch: 'master',
+                url: 'https://github.com/zerocodelk/spring-boot-jenkins-deployment-example.git'
             }
         }
 
