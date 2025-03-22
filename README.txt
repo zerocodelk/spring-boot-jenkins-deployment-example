@@ -15,7 +15,7 @@ docker run -d --name jenkins \
 docker logs jenkins
 
 # then installed the required plugins (manually)
-junit, coverage, git, maven
+junit, coverage, git, maven, pipeline
 
 
 #login to the container as root
@@ -51,65 +51,8 @@ chmod +x /usr/local/bin/docker-compose
 
 docker-compose --version
 
+# Now create a Jenkins Build (Pipeline)
 
-docker run -d \
-  --name jenkins \
-  -p 8080:8080 \
-  -p 50000:50000 \
-  -v jenkins_home:/var/jenkins_home \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  -v $(which docker):/usr/bin/docker \
-  -v /usr/lib/jvm:/usr/lib/jvm \
-  -v /usr/share/maven:/usr/share/maven \
-  -v /usr/bin/mvn:/usr/bin/mvn \
-  jenkins/jenkins:jdk17
+ New Item -> Give a Name -> Pipeline ->  Pipeline Script (Copy the Content of the Jenkins file stored in the root of the project)
 
-docker run -d \
-  --name jenkins \
-  -p 8080:8080 \
-  -p 50000:50000 \
-  -v jenkins_home:/var/jenkins_home \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  -v $(which docker):/usr/bin/docker \
-  -v /usr/lib/jvm:/usr/lib/jvm \
-  -v /usr/share/maven:/usr/share/maven \
-  -v /etc/maven:/etc/maven \
-  -v /usr/bin/mvn:/usr/bin/mvn \
-  -e MAVEN_HOME=/usr/share/maven \
-  -e M2_HOME=/usr/share/maven \
-  -e PATH="/usr/share/maven/bin:${PATH}" \
-  jenkins/jenkins:jdk17
-
-
-
-
-
-
-Following plugins should be installed
-
-* Maven
-* Git
-* Docker Pipeline
-* Docker
-* Docker Compose
-
-
-# Configure Jenkins to Use Host's Java and Maven
-
-# Configure JDK in Jenkins:
-
-  Go to "Manage Jenkins" > "Global Tool Configuration"
-  Under JDK section, click "Add JDK"
-  Uncheck "Install automatically"
-  Name it (e.g., "HostJDK")
-  Set JAVA_HOME to match your host's Java path (e.g., /usr/lib/jvm/java-11-openjdk-amd64)
-
-
- # Configure Maven in Jenkins:
-
-  In the same screen, scroll to Maven section
-  Click "Add Maven"
-  Uncheck "Install automatically"
-  Name it (e.g., "HostMaven")
-  Set MAVEN_HOME to match your host's Maven path (e.g., /usr/share/maven)
-  Save the configuration
+ # Build Now
