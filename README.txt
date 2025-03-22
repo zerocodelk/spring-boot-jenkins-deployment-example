@@ -16,7 +16,7 @@ docker logs jenkins
 
 # then installed the required plugins (manually)
 junit, coverage, git, maven, pipeline
-
+(After selecting all the required plugins click on install)
 
 #login to the container as root
 docker exec -it --user root jenkins /bin/bash
