@@ -7,6 +7,6 @@ services:
       context: ./
       dockerfile: Dockerfile
     ports:
-      - "8083:8083"
+      - "9099:9099"
     volumes:
       - /root/uploaded-files:/app/data
