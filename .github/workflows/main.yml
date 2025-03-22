@@ -3,10 +3,10 @@ name: Local CI/CD Pipeline
 on:
   push:
     branches:
-      - main  # Runs on push to main branch
+      - master  # Runs on push to master branch
   pull_request:
     branches:
-      - main  # Runs on PRs to main
+      - master  # Runs on PRs to master
 
 jobs:
   build:
@@ -33,13 +33,13 @@ jobs:
         run: mvn clean install -DskipTests
 
       - name: Build Docker Image Locally
-        run: docker build -t spring-boot-app .
+        run: docker build -t spring-boot-github-actions-app .
 
       - name: Stop Old Container (If Running)
-        run: docker stop spring-boot-app || true
+        run: docker stop spring-boot-github-actions-app || true
 
       - name: Remove Old Container (If Exists)
-        run: docker rm spring-boot-app || true
+        run: docker rm spring-boot-github-actions-app || true
 
       - name: Run New Docker Container
-        run: docker run -d --name spring-boot-app -p 8080:8080 spring-boot-app
+        run: docker run -d --name spring-boot-github-actions-app -p 9099:9099 spring-boot-github-actions-app
