@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  sample-api-service:
+    image: sample-api-service
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    volumes:
+      - /root/uploaded-files:/app/data
