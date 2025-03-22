@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    triggers {
+        pollSCM('* * * * *')  // Polls SCM every minute (this will check for the repo changes)
+    }
+
     stages {
 
         stage('Verify Tools') {
